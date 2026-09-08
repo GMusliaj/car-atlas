@@ -1,7 +1,7 @@
 import * as T from './three.module.js';
 import {bodySource,bodyProfiles} from './models/g05-source.js';
 
-export const BODY_IDENTITY = Object.freeze({make:'BMW',model:'X5',generation:'G05',facelift:'LCI',trim:'M Sport',sourceYear:2018,derivative:true});
+export const BODY_IDENTITY = Object.freeze({make:'BMW',model:'X5',generation:'G05',facelift:'LCI',trim:'M Sport',paint:'Alpine White III',paintCode:'300',sourceYear:2018,derivative:true});
 export const BODY_SCALE = 3.14 / (293.30399 + 6.309);
 export const bodyPoint = ([x,y,z]) => [z*BODY_SCALE,(y+37.43)*BODY_SCALE,(x+6.309)*BODY_SCALE-1.52];
 const decode = (text,Type) => new Type(Uint8Array.from(atob(text),c=>c.charCodeAt(0)).buffer);
@@ -40,7 +40,7 @@ function splitPolygon(polygon,axis,value) {
 export function buildBody(group) {
   group.userData.vehicle = BODY_IDENTITY;
   const materials = {
-    paint:new T.MeshStandardMaterial({color:0xa8bdc7,metalness:.4,roughness:.43,side:T.DoubleSide}),
+    paint:new T.MeshStandardMaterial({color:0xf4f4ef,metalness:.05,roughness:.3,side:T.DoubleSide}),
     trim:new T.MeshStandardMaterial({color:0x26343c,metalness:.25,roughness:.42,side:T.DoubleSide}),
     chrome:new T.MeshStandardMaterial({color:0x879ba5,metalness:.85,roughness:.26,side:T.DoubleSide}),
     glass:new T.MeshStandardMaterial({color:0x506b78,metalness:.1,roughness:.22,side:T.DoubleSide}),

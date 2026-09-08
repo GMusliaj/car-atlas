@@ -1,7 +1,8 @@
 import * as T from './three.module.js';
 import {buildBody} from "./body.js";
+import {buildTransmission} from './transmission.js';
 import {buildEngine} from './engine.js';
-import {buildWheel740} from './wheel.js';
+import {buildWheel740,buildTyre} from './wheel.js';
 import {isPartVisible} from './explorer.js';
 
 // Generic reference-guided geometry. Dimensions are illustration units, not CAD.
@@ -37,9 +38,7 @@ export function buildDrivetrain(scene) {
   const engineAppearance=buildEngine(engine);
 
   const gearbox=part('gearbox',world,[0,.64,-.43],[.22,.3,-.15]);
-  cyl(gearbox,.31,.28,silver,[0,0,-.32],'z',.27);cyl(gearbox,.27,.61,silver,[0,0,.08],'z',.16);
-  for(let i=0;i<10;i++)ring(gearbox,.27-i*.008,.21-i*.007,.02,steel,[0,0,-.17+i*.055]);
-  box(gearbox,[.34,.07,.55],dark,[0,-.255,.01]);ring(gearbox,.32,.265,.10,brass,[0,0,-.26]);bolts(gearbox,.275,-.48,10);
+  buildTransmission(gearbox);
 
   // Transfer case. Upper shaft is the direct rear path; the lower-offset shaft feeds forward.
   const transfer=part('transfer',world,[0,.64,.29],[0,.65,.16]);
@@ -117,9 +116,7 @@ rod(rd,[0,0,-.17],[0,.12,-.26],.06,steel);
     const g=new T.Group();g.position.set(side*.887,.392,z);g.scale.setScalar(.82);g.userData={base:g.position.clone(),side,z};wheels.add(g);wheelSubs.push(g);
     rod(g,[-side*.75,.03,0],[0,0,0],.041,steel);
     for(const x of [-side*.60,-side*.12])for(let i=0;i<5;i++)cyl(g,.055+i*.004,.013,dark,[x+i*side*.015,0,0],'x');
-    const tyre=torus(g,.385,.098,0x171d22,[0,0,0],'x');tyre.scale.z=1.45;tyre.material.roughness=.95;
-    for(const x of [-.075,-.025,.025,.075])torus(g,.466,.007,0x28313a,[x,0,0],'x');
-    for(let i=0;i<48;i++){const a=i*Math.PI/24;rod(g,[-.09,Math.cos(a)*.473,Math.sin(a)*.473],[.09,Math.cos(a+.027)*.473,Math.sin(a+.027)*.473],.005,0x39434b);}
+    spinning.push(buildTyre(g));
     const rim=buildWheel740(g,side);spinning.push(rim);
     cyl(g,.243,.008,steel,[-side*.067,0,0],'x');cyl(g,.243,.008,steel,[-side*.095,0,0],'x');cyl(g,.115,.065,silver,[-side*.075,0,0],'x');
     for(let j=0;j<32;j++){const a=j*Math.PI/16;rod(g,[-side*.081,Math.cos(a)*.12,Math.sin(a)*.12],[-side*.081,Math.cos(a+.08)*.236,Math.sin(a+.08)*.236],.006,steel);}
@@ -179,7 +176,7 @@ rod(chassis,[-.20,.53,-1.67],[-.38,1.34,-.72],.021,silver);
       if(!buckets.has(key))buckets.set(key,[]);buckets.get(key).push(child);
     }
     for(const list of buckets.values()){if(list.length<2)continue;const positions=[],normals=[],indices=[];let offset=0;
-      for(const child of list){child.updateMatrix();const geo=child.geometry.clone().applyMatrix4(child.matrix);positions.push(...geo.attributes.position.array);normals.push(...geo.attributes.normal.array);
+      for(const child of list){child.updateMatrix();const geo=child.geometry.clone().applyMatrix4(child.matrix);for(const v of geo.attributes.position.array)positions.push(v);for(const v of geo.attributes.normal.array)normals.push(v);
         if(geo.index)for(const i of geo.index.array)indices.push(i+offset);else for(let i=0;i<geo.attributes.position.count;i++)indices.push(i+offset);
         offset+=geo.attributes.position.count;geo.dispose();
       }
@@ -224,7 +221,8 @@ rod(chassis,[-.20,.53,-1.67],[-.38,1.34,-.72],.021,silver);
     }
     plates.forEach((p,i)=>{p.position.z=-.115+i*(.010+(1-strength)*.004+explode*.020);p.rotation.z=time*.55;});
 
-    spinning.forEach(g=>{if(g.parent?.parent===wheels)g.rotation.x=time*.45;else g.rotation.z=time*.55*(g.userData.spinRatio??1);});
+    // Vehicle forward is -Z: the top of every wheel must move toward -Z.
+    spinning.forEach(g=>{if(g.parent?.parent===wheels)g.rotation.x=-time*.45;else g.rotation.z=time*.55*(g.userData.spinRatio??1);});
     for(const {link,index}of chains){const u=(index/64+time*.085)%1;link.position.copy(chainCurve.getPointAt(u));const tan=chainCurve.getTangentAt(u);link.rotation.z=Math.atan2(tan.y,tan.x);}
     chainRoot.visible=layout==='chain';gearRoot.visible=layout==='gears';
     for(const f of flows){const showFlow=Boolean(flow)&&!coasting&&!(f.id==='engine'&&isolate&&selected==='engine');f.m.visible=f.m.visible&&showFlow;f.m.material.transparent=true;f.m.material.opacity=f.branch?.25+strength*.75:1;f.beads.forEach((b,i)=>{b.visible=b.visible&&showFlow;b.position.copy(f.curve.getPointAt((time*.23+i/5)%1));});}

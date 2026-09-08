@@ -4,6 +4,8 @@ This project is inspired by **my own car: a 2024 BMW X5 40i M-Sport (G05 LCI)**.
 
 ![My Car Atlas 3D Viewer — Side View](docs/screenshot.png)
 
+The supplied vehicle record identifies Alpine White III paint (300), Silverstone decorative-stitched Sensafin upholstery (KPA9), a B58B30M2 engine listed at 280 kW / 540 Nm, European left-hand drive and all-wheel drive. Its equipment list confirms 740 M wheels, M Sport brakes, Sport automatic transmission, Adaptive M suspension, Shadowline trim and adaptive LED headlights. The atlas reflects these in the body finish and component descriptions; **About → My car’s specification** lists the details. Production is listed as 20 November 2023 in Spartanburg; the 2024 designation is owner-supplied. The cabin and driver-assistance functions are not modelled.
+
 ## Start on macOS, Windows, or Linux
 
 1. Install Node.js 20 or newer if it is not already installed. Check with `node --version`.
