@@ -1,0 +1,17 @@
+{
+  "name": "xdrive-atlas-local",
+  "version": "2.1.0",
+  "private": true,
+  "type": "module",
+  "description": "An interactive 3D drivetrain atlas inspired by my own 2024 BMW X5 40i M-Sport.",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:browser": "node tests/browser.mjs",
+    "check": "node --check dist/app.js && node --check dist/model.js && node --check dist/wheel.js && node --check dist/engine.js && node --check dist/engine-references.js && node --check dist/references.js && node --check dist/body.js && node --check scripts/build-body.mjs && node --check dist/catalogue.js && node --check dist/explorer.js && npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

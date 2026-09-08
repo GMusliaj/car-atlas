@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>My Car Atlas · 2024 BMW X5 40i M-Sport</title>
+  <meta name="description" content="Inspired by my own car: a 2024 BMW X5 40i M-Sport. Explore its drivetrain in 3D, find components, and inspect the mechanics of xDrive.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#viewport">Skip to 3D viewer</a>
+  <main class="studio">
+    <header class="identity">
+      <div class="eyebrow"><span class="status-dot"></span> INTERACTIVE DRIVETRAIN</div>
+      <h1>My Car Atlas <span class="badge">3D</span></h1>
+      <p class="identity-meta">My 2024 BMW X5 40i M-Sport <span>·</span> <span id="partCount">19</span> selectable assemblies</p>
+    </header>
+    <nav class="top-actions" aria-label="Explorer panels">
+      <button id="searchOpen" aria-haspopup="dialog"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg><span>Find a component</span><kbd>/</kbd></button>
+      <button id="motionOpen" aria-haspopup="dialog"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg><span>Power flow</span></button>
+      <button id="about" class="icon-button" aria-label="About this model" aria-haspopup="dialog"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></svg></button>
+    </nav>
+
+    <section id="layersPanel" class="layers-panel panel" aria-labelledby="layersTitle">
+      <div class="panel-heading"><h2 id="layersTitle">Systems</h2><span class="badge desktop-only">6</span><button id="layersClose" class="icon-button mobile-only" aria-label="Close systems">×</button></div>
+      <div class="presets" role="group" aria-label="System presets"><button data-preset="all">All</button><button data-preset="drivetrain">Drivetrain</button><button data-preset="transfer">Transfer</button></div>
+      <div id="systems" class="system-list"></div>
+      <div class="panel-foot"><span id="visibleCount" role="status" aria-live="polite" aria-atomic="true"></span><button id="hideAll">Hide all</button></div>
+      <button id="browseParts" class="browse-button">Browse all components <span aria-hidden="true">↗</span></button>
+    </section>
+
+    <section class="stage" aria-label="Interactive 3D drivetrain">
+      <div id="viewport" tabindex="-1"><div id="loading" class="scene-message panel" role="status"><strong>Preparing the drivetrain</strong><p>Loading the component geometry…</p></div></div>
+      <div id="emptyScene" class="scene-message panel" hidden><strong>No systems visible</strong><p>Turn on a system or restore the complete drivetrain.</p><button id="showAll" class="primary">Show all systems</button></div>
+      <div id="hoverLabel" class="hover-label" hidden></div>
+    </section>
+
+    <nav class="view-controls panel" aria-label="Camera controls">
+      <button data-view="overview" aria-label="Three-quarter view" title="Three-quarter view">¾</button>
+      <button data-view="front" aria-label="Front view" title="Front view">F</button>
+      <button data-view="top" aria-label="Top view" title="Top view">T</button>
+      <button data-view="side" aria-label="Side view" title="Side view">S</button>
+      <span class="divider"></span>
+      <button id="rotate" aria-label="Rotate model" title="Auto rotate" aria-pressed="false">↻</button>
+      <button id="zoomIn" aria-label="Zoom in" title="Zoom in">+</button>
+      <button id="zoomOut" aria-label="Zoom out" title="Zoom out">−</button>
+    </nav>
+
+    <aside id="detail" class="detail panel" aria-labelledby="partTitle" hidden>
+      <div class="detail-scroll">
+        <div class="panel-heading"><span class="eyebrow" id="partNumber"></span><button id="closeDetail" class="icon-button" aria-label="Close component details">×</button></div>
+        <h2 id="partTitle" tabindex="-1"></h2><p id="partTagline" class="part-tagline"></p><p id="partText"></p>
+        <div class="detail-meta"><span>Component ID<strong id="partId"></strong></span><span>Model type<strong>Educational</strong></span></div>
+        <div class="mechanism"><h3>What to watch</h3><p id="watch"></p></div>
+        <div class="reference-card"><button id="referenceOpen" aria-label="Open selected component reference"><img id="referenceThumb" alt=""><span id="referenceName"></span><span class="reference-cta">View source image ↗</span></button><div id="referenceOptions"></div></div>
+      </div>
+      <div class="detail-actions"><button id="isolate" class="primary" aria-pressed="false">Isolate component</button><div><button id="focus">Fit component</button><button id="clearSelection">Clear selection</button></div></div>
+    </aside>
+
+    <div class="scene-caption"><span></span><span id="viewLabel">X5 · COMPLETE DRIVETRAIN</span><span></span></div>
+    <div class="bottom-dock panel" role="region" aria-label="3D effects">
+      <button id="layersOpen" class="mobile-only dock-button" aria-expanded="false" aria-controls="layersPanel"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 8 9-5 9 5-9 5-9-5Zm0 5 9 5 9-5M3 18l9 5 9-5"/></svg><span>Systems</span></button>
+      <div class="explode-control"><div class="explode-label"><label for="explode">Explode assemblies</label><output id="explodeValue" for="explode">0%</output></div><input type="range" id="explode" min="0" max="100" value="0"><div class="slider-endpoints"><span>Assembled</span><span>Separated</span></div></div>
+      <label class="cutaway-control"><input type="checkbox" id="cutaway"> Cutaway</label>
+      <label class="flow-control"><input type="checkbox" id="flow" checked> Power flow</label>
+      <button id="reset" class="dock-button" aria-label="Assemble and reset"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6"/></svg><span>Reset</span></button>
+    </div>
+    <footer class="studio-footer"><span class="gesture-hint">Drag to orbit <b>·</b> Scroll / pinch to zoom <b>·</b> Select to inspect</span><span class="footer-note">Educational reconstruction</span><button id="sources" aria-haspopup="dialog">Parts &amp; sources ↗</button></footer>
+    <div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
+  </main>
+  <dialog id="searchDialog" aria-labelledby="searchTitle">
+    <div class="panel-heading"><h2 id="searchTitle">Find a component</h2><button id="closeSearch" class="icon-button" aria-label="Close search">×</button></div>
+    <label class="sr-only" for="searchInput">Search component names or IDs</label><input id="searchInput" type="search" placeholder="Clutch, shaft, engine…" autocomplete="off" aria-controls="parts">
+    <p id="searchCount" class="search-note" role="status" aria-live="polite"></p><nav id="parts" class="search-results" aria-label="Matching components"></nav><p class="search-note">Search all assemblies, including hidden systems. ↑ ↓ to browse · Enter to inspect</p>
+  </dialog>
+  <dialog id="motionDialog" aria-labelledby="motionTitle">
+    <div class="panel-heading"><div><span class="eyebrow">PUT IT IN MOTION</span><h2 id="motionTitle">Follow the power.</h2></div><button id="closeMotion" class="icon-button" aria-label="Close power flow">×</button></div>
+    <p>Explore how the drive paths respond to different conditions.</p><button id="play" aria-pressed="true">Pause flow</button>
+    <div id="scenarios" class="scenario-tabs" role="group" aria-label="Driving scenarios"></div><p id="scenarioText" aria-live="polite"></p>
+    <label class="mode-label" for="mode">Driving mode <select id="mode"><option>Comfort</option><option>Sport</option><option>Eco Pro</option></select></label><p id="modeText" class="small"></p>
+    <label class="mode-label" for="layout">Reference layout <select id="layout"><option value="chain">Chain drive</option><option value="gears">Gear drive · comparison</option></select></label><p id="layoutNote" class="small" hidden>Generic comparison, not the G05 specification.</p>
+    <div class="flow-key"><span><i class="rear"></i> Main drive path</span><span><i class="front"></i> Front-axle branch</span></div><p class="small">Moving lights show the route of power, not a measured torque split.</p>
+  </dialog>
+<dialog id="info" aria-labelledby="infoTitle"><button id="closeInfo" class="close" aria-label="Close">×</button><span class="eyebrow">MODEL NOTES</span><h2 id="infoTitle">Inspired by my own car.</h2><p>This project is inspired by my own car: a <strong>2024 BMW X5 40i M-Sport (G05 LCI)</strong>.</p><p>This is an independent educational atlas of its drivetrain. The exterior adapts BMW’s openly licensed G05 model with reconstructed LCI M Sport details. The drivetrain is illustrated from component references. This is an educational model, not factory LCI CAD or a service reference. The image sources and their applicability are listed under Parts &amp; sources.</p><p>The rear-biased system varies front/rear power distribution with an electronically controlled multi-plate clutch in the transfer case. Clutch motion and scenarios explain this principle; they do not reproduce BMW software, exact clutch pressure, torque percentages or disengagement thresholds.</p><p>The transmission includes the 48V mild-hybrid motor. It is represented as an integrated assembly here. Brake-based traction interventions are described, rather than simulated.</p><p><a href="https://www.press.bmwgroup.com/belux/article/attachment/T0408480FR/573631" target="_blank" rel="noopener">BMW X5 / X6 LCI technical press kit ↗</a></p><p class="small">Body foundation: <a href="https://github.com/bmwcarit/digital-car-3d" target="_blank" rel="noopener">BMW Car IT · 2018 G05</a>, modified for this atlas under <a href="models/LICENSE-CC-BY-4.0.txt" target="_blank" rel="noopener">CC BY 4.0</a>. xDrive description: page 19. No affiliation with BMW; strictly a personal educational project with no trademark or license infringement intended.</p></dialog><dialog id="referenceDialog" aria-labelledby="referenceTitle"><button id="closeReference" class="close" aria-label="Close reference">×</button><h2 id="referenceTitle"></h2><div id="referenceNavigation" hidden><select id="referenceSelect" aria-label="Reference image"></select><button id="referencePrevious" aria-label="Previous reference image">←</button><span id="referenceCount" role="status" aria-live="polite"></span><button id="referenceNext" aria-label="Next reference image">→</button></div><img id="referenceImage" alt="Reference image"><p id="referenceCaption"></p><a id="referenceSource" target="_blank" rel="noopener"></a></dialog><dialog id="sourcesDialog" aria-labelledby="sourcesTitle"><button id="closeSources" class="close" aria-label="Close sources">×</button><span class="eyebrow">COMPONENT INVENTORY</span><h2 id="sourcesTitle">From reference to 3D.</h2><p>Inspired by my own 2024 BMW X5 40i M-Sport, this atlas uses visual references for each assembly. Supplier photographs establish shape, not exact fitment to a particular VIN. Older designs and other variants are identified as generic references.</p><div class="inventory-scroll"><table><thead><tr><th>Displayed part</th><th>Geometry revision</th><th>Reference</th></tr></thead><tbody id="inventoryRows"></tbody></table></div></dialog>
+<script>
+if (location.protocol === 'file:') document.getElementById('loading').textContent = 'Start the included server with npm start, then open http://localhost:3000.';
+window.addEventListener('error', () => {
+ const loading = document.getElementById('loading');
+ if (loading && !loading.dataset.error) loading.textContent = 'The viewer could not start. Check that all project files are present, then reload.';
+});
+</script>
+<script type="module" src="app.js"></script>
+</body>
+</html>

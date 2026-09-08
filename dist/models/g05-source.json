@@ -1,0 +1,381 @@
+{
+  "author": "BMW Car IT GmbH",
+  "license": "CC-BY-4.0",
+  "repository": "https://github.com/bmwcarit/digital-car-3d",
+  "revision": "6261f53b5ac63c6686039d106fbbbfb693339d72",
+  "sourceVehicle": "BMW X5 G05 2018 (pre-LCI)",
+  "targetVehicle": "BMW X5 G05 LCI M Sport",
+  "coordinateScale": 0.010480186456535145,
+  "frontAxleSource": -6.309,
+  "rearAxleSource": 293.30399,
+  "groundOffset": 37.43,
+  "assetSha256": "1eed4954116a5a2370825712af58f7a64211aac067cd583538224b765857e17e",
+  "sources": [
+    {
+      "file": "paint.gltf",
+      "url": "https://media.githubusercontent.com/media/bmwcarit/digital-car-3d/6261f53b5ac63c6686039d106fbbbfb693339d72/G05/meshes/Exterior/O_G05_Exterior_Paint.gltf",
+      "sha256": "3574495f09e841ef92b663e47f241b372f17f75d2c2a98e0885e44c2038d49e6"
+    },
+    {
+      "file": "trim.gltf",
+      "url": "https://media.githubusercontent.com/media/bmwcarit/digital-car-3d/6261f53b5ac63c6686039d106fbbbfb693339d72/G05/meshes/Exterior/O_G05_Exterior_non-Paint.gltf",
+      "sha256": "ed4cd39eb83274897b75d7bb1b47c640f848b1aa591445dc95d2a0602bc36d29"
+    },
+    {
+      "file": "hood.gltf",
+      "url": "https://media.githubusercontent.com/media/bmwcarit/digital-car-3d/6261f53b5ac63c6686039d106fbbbfb693339d72/G05/meshes/Exterior/O_G05_Hood.gltf",
+      "sha256": "302d499e75b962ed26ed9d130e6e543a7b0f6936914cc3a040961891c5889a56"
+    },
+    {
+      "file": "doors-front.gltf",
+      "url": "https://media.githubusercontent.com/media/bmwcarit/digital-car-3d/6261f53b5ac63c6686039d106fbbbfb693339d72/G05/meshes/Doors/O_G05_Doors_F.gltf",
+      "sha256": "245ff6fddeb786ac9b63b7ea54ccac2ac432d365ec24e50f3c1df66bcb1c0d1e"
+    },
+    {
+      "file": "doors-rear.gltf",
+      "url": "https://media.githubusercontent.com/media/bmwcarit/digital-car-3d/6261f53b5ac63c6686039d106fbbbfb693339d72/G05/meshes/Doors/O_G05_Doors_B.gltf",
+      "sha256": "6b8694a7af88b6f57f11575c8569508a249b0f9a6060ba0ef3e30ac130b91592"
+    },
+    {
+      "file": "tailgate.gltf",
+      "url": "https://media.githubusercontent.com/media/bmwcarit/digital-car-3d/6261f53b5ac63c6686039d106fbbbfb693339d72/G05/meshes/Doors/O_G05_Tailgate.gltf",
+      "sha256": "264094988b510984bfa5dd50659cc4328c1bc5be9746c31b86e2a72326bdd681"
+    },
+    {
+      "file": "lights-front.gltf",
+      "url": "https://media.githubusercontent.com/media/bmwcarit/digital-car-3d/6261f53b5ac63c6686039d106fbbbfb693339d72/G05/meshes/Exterior/O_G05_Headlights.gltf",
+      "sha256": "2ad4eae379678f279ffd9bb0d5f45c1a0cca8b0ac009b95c9d6d14c0cfab8cb4"
+    },
+    {
+      "file": "lights-rear.gltf",
+      "url": "https://media.githubusercontent.com/media/bmwcarit/digital-car-3d/6261f53b5ac63c6686039d106fbbbfb693339d72/G05/meshes/Exterior/O_G05_Taillights.gltf",
+      "sha256": "db0edff84b4a10455d19c1c58834bc12f01f9224d679b52feb2b4fa4c0f5ca78"
+    }
+  ],
+  "meshes": [
+    {
+      "name": "paint/Exterior_paint",
+      "kind": "paint",
+      "vertices": 40565,
+      "triangles": 45212
+    },
+    {
+      "name": "paint/ChargingFlap_paint",
+      "kind": "paint",
+      "vertices": 677,
+      "triangles": 542
+    },
+    {
+      "name": "trim/Exterior_Chrome_Matte/left",
+      "kind": "chrome",
+      "vertices": 13411,
+      "triangles": 20628
+    },
+    {
+      "name": "trim/Exterior_Chrome_Matte/right",
+      "kind": "chrome",
+      "vertices": 13411,
+      "triangles": 20628
+    },
+    {
+      "name": "trim/Exterior_plastic_grained_black",
+      "kind": "trim",
+      "vertices": 36838,
+      "triangles": 22458
+    },
+    {
+      "name": "trim/Exterior_plastic_glossy",
+      "kind": "trim",
+      "vertices": 22118,
+      "triangles": 14330
+    },
+    {
+      "name": "trim/Exterior_chrome",
+      "kind": "chrome",
+      "vertices": 5114,
+      "triangles": 6182
+    },
+    {
+      "name": "trim/Exterior_glass_2sided_dark",
+      "kind": "glass",
+      "vertices": 424,
+      "triangles": 507
+    },
+    {
+      "name": "trim/Exterior_Gass_1sided",
+      "kind": "trim",
+      "vertices": 692,
+      "triangles": 863
+    },
+    {
+      "name": "hood/Hood_paint/left",
+      "kind": "paint",
+      "vertices": 1768,
+      "triangles": 2421
+    },
+    {
+      "name": "hood/Hood_paint/right",
+      "kind": "paint",
+      "vertices": 1768,
+      "triangles": 2421
+    },
+    {
+      "name": "doors-front/Door_F_paint/left",
+      "kind": "paint",
+      "vertices": 8720,
+      "triangles": 4959
+    },
+    {
+      "name": "doors-front/Door_F_paint/right",
+      "kind": "paint",
+      "vertices": 8720,
+      "triangles": 4959
+    },
+    {
+      "name": "doors-front/Door_F_plastic_glossy/left",
+      "kind": "trim",
+      "vertices": 1730,
+      "triangles": 894
+    },
+    {
+      "name": "doors-front/Door_F_plastic_glossy/right",
+      "kind": "trim",
+      "vertices": 1730,
+      "triangles": 894
+    },
+    {
+      "name": "doors-front/Door_F_plastic_grained/left",
+      "kind": "trim",
+      "vertices": 1545,
+      "triangles": 810
+    },
+    {
+      "name": "doors-front/Door_F_plastic_grained/right",
+      "kind": "trim",
+      "vertices": 1545,
+      "triangles": 810
+    },
+    {
+      "name": "doors-front/Door_F_chrome_mat/left",
+      "kind": "chrome",
+      "vertices": 1247,
+      "triangles": 590
+    },
+    {
+      "name": "doors-front/Door_F_chrome_mat/right",
+      "kind": "chrome",
+      "vertices": 1247,
+      "triangles": 590
+    },
+    {
+      "name": "doors-front/Door_F_chrome/left",
+      "kind": "chrome",
+      "vertices": 434,
+      "triangles": 199
+    },
+    {
+      "name": "doors-front/Door_F_chrome/right",
+      "kind": "chrome",
+      "vertices": 434,
+      "triangles": 199
+    },
+    {
+      "name": "doors-front/Door_F_glass/left",
+      "kind": "glass",
+      "vertices": 82,
+      "triangles": 123
+    },
+    {
+      "name": "doors-front/Door_F_glass/right",
+      "kind": "glass",
+      "vertices": 82,
+      "triangles": 123
+    },
+    {
+      "name": "doors-front/SideMirrors_plastic_grained/left",
+      "kind": "trim",
+      "vertices": 1084,
+      "triangles": 490
+    },
+    {
+      "name": "doors-front/SideMirrors_plastic_grained/right",
+      "kind": "trim",
+      "vertices": 1084,
+      "triangles": 490
+    },
+    {
+      "name": "doors-front/SideMirrors_plastic_matte/left",
+      "kind": "trim",
+      "vertices": 2377,
+      "triangles": 1145
+    },
+    {
+      "name": "doors-front/SideMirrors_plastic_matte/right",
+      "kind": "trim",
+      "vertices": 2377,
+      "triangles": 1145
+    },
+    {
+      "name": "doors-front/SideMirrors_paint/left",
+      "kind": "paint",
+      "vertices": 415,
+      "triangles": 231
+    },
+    {
+      "name": "doors-front/SideMirrors_paint/right",
+      "kind": "paint",
+      "vertices": 415,
+      "triangles": 231
+    },
+    {
+      "name": "doors-front/SideMirrors_chrome/left",
+      "kind": "chrome",
+      "vertices": 1003,
+      "triangles": 554
+    },
+    {
+      "name": "doors-front/SideMirrors_chrome/right",
+      "kind": "chrome",
+      "vertices": 1003,
+      "triangles": 554
+    },
+    {
+      "name": "doors-rear/Door_B_paint/left",
+      "kind": "paint",
+      "vertices": 10228,
+      "triangles": 6023
+    },
+    {
+      "name": "doors-rear/Door_B_paint/right",
+      "kind": "paint",
+      "vertices": 10228,
+      "triangles": 6023
+    },
+    {
+      "name": "doors-rear/Door_B_chrome_matte/left",
+      "kind": "chrome",
+      "vertices": 10098,
+      "triangles": 4728
+    },
+    {
+      "name": "doors-rear/Door_B_chrome_matte/right",
+      "kind": "chrome",
+      "vertices": 10098,
+      "triangles": 4728
+    },
+    {
+      "name": "doors-rear/Door_B_chrome/left",
+      "kind": "chrome",
+      "vertices": 390,
+      "triangles": 179
+    },
+    {
+      "name": "doors-rear/Door_B_chrome/right",
+      "kind": "chrome",
+      "vertices": 390,
+      "triangles": 179
+    },
+    {
+      "name": "doors-rear/Door_B_plastic_glossy/left",
+      "kind": "trim",
+      "vertices": 54,
+      "triangles": 49
+    },
+    {
+      "name": "doors-rear/Door_B_plastic_glossy/right",
+      "kind": "trim",
+      "vertices": 54,
+      "triangles": 49
+    },
+    {
+      "name": "doors-rear/Door_B_plastic_grained/left",
+      "kind": "trim",
+      "vertices": 11842,
+      "triangles": 5907
+    },
+    {
+      "name": "doors-rear/Door_B_plastic_grained/right",
+      "kind": "trim",
+      "vertices": 11842,
+      "triangles": 5907
+    },
+    {
+      "name": "doors-rear/Door_B_glass/left",
+      "kind": "glass",
+      "vertices": 87,
+      "triangles": 141
+    },
+    {
+      "name": "doors-rear/Door_B_glass/right",
+      "kind": "glass",
+      "vertices": 87,
+      "triangles": 141
+    },
+    {
+      "name": "tailgate/Tailgate_U_paint",
+      "kind": "paint",
+      "vertices": 13880,
+      "triangles": 9416
+    },
+    {
+      "name": "tailgate/Tailgate_U_plastic_glossy",
+      "kind": "trim",
+      "vertices": 11391,
+      "triangles": 7719
+    },
+    {
+      "name": "tailgate/Tailgate_U_plastic_matte",
+      "kind": "trim",
+      "vertices": 16,
+      "triangles": 10
+    },
+    {
+      "name": "tailgate/Tailgate_U_plastic_grained",
+      "kind": "trim",
+      "vertices": 3986,
+      "triangles": 2280
+    },
+    {
+      "name": "tailgate/RearWindow_glass",
+      "kind": "glass",
+      "vertices": 2337,
+      "triangles": 779
+    },
+    {
+      "name": "tailgate/Tailgate_U_glass_paint_black",
+      "kind": "glass",
+      "vertices": 460,
+      "triangles": 404
+    },
+    {
+      "name": "tailgate/Tailgate_U_chrome",
+      "kind": "chrome",
+      "vertices": 2119,
+      "triangles": 1362
+    },
+    {
+      "name": "tailgate/Tailgate_D_paint",
+      "kind": "paint",
+      "vertices": 2040,
+      "triangles": 2110
+    },
+    {
+      "name": "lights-front/Headlights_Lens",
+      "kind": "headlight",
+      "vertices": 1734,
+      "triangles": 808
+    },
+    {
+      "name": "lights-rear/Taillights_Outer_lens_red",
+      "kind": "taillight",
+      "vertices": 1480,
+      "triangles": 908
+    },
+    {
+      "name": "lights-rear/Taillights_Inner_lens_red",
+      "kind": "taillight",
+      "vertices": 1818,
+      "triangles": 1292
+    }
+  ]
+}

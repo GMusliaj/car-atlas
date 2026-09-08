@@ -1,0 +1,7 @@
+# dist/ contains the editable frontend and bundled runtime assets; keep it trackable.
+node_modules/
+.DS_Store
+brochures/*.pdf
+dist/references/*
+dist/references/engine/*
+CHANGELOG.md
