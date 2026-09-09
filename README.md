@@ -2,7 +2,7 @@
 
 This project is inspired by **my own car: a 2024 BMW X5 40i M-Sport (G05 LCI)**. It is an interactive 3D atlas for exploring the drivetrain, engine and mechanics of xDrive.
 
-![My Car Atlas — Smooth Side, Top and Front camera tour, followed by a closer 360-degree rotation with zoom](docs/atlas-rotation.gif)
+![My Car Atlas — Continuous Side, Top and Front camera tour, followed by a closer 360-degree rotation with zoom](docs/atlas-rotation.gif)
 
 The supplied vehicle record identifies Alpine White III paint (300), Silverstone decorative-stitched Sensafin upholstery (KPA9), a B58B30M2 engine listed at 280 kW / 540 Nm, European left-hand drive and all-wheel drive. Its equipment list confirms 740 M wheels, M Sport brakes, Sport automatic transmission, Adaptive M suspension, Shadowline trim and adaptive LED headlights. The atlas reflects these in the body finish and component descriptions; **About → My car’s specification** lists the details. Production is listed as 20 November 2023 in Spartanburg; the 2024 designation is owner-supplied. The cabin and driver-assistance functions are not modelled.
 
