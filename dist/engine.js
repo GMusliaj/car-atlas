@@ -2,6 +2,11 @@ import * as T from './three.module.js';
 
 // Reconstructed surfaces, not BMW CAD. Drawing IDs refer to engine-references.js.
 export const ENGINE_IDENTITY=Object.freeze({vehicle:'G05N xDrive40i',type:'21EU',engine:'B58B30M2',family:'B58N',cylinders:6,bore:.082,stroke:.0946});
+// Local assembly datums, in the same illustrative units as the surfaces below.
+export const ENGINE_CONNECTIONS=Object.freeze({
+  transmission:[0,-.06,.435],
+  mounts:[[-.455,-.3115,.055],[.455,-.3115,-.015]],
+});
 
 export function buildEngine(parent) {
   parent.userData.engineIdentity=ENGINE_IDENTITY;
@@ -35,6 +40,9 @@ export function buildEngine(parent) {
     }
   }
   const bank=group('engine/long-block');bank.rotation.z=-Math.PI/6;
+  // Cant the cylinder bank about the crank axis, keeping the crankshaft,
+  // front damper and flywheel concentric in the assembled powertrain.
+  bank.position.set(.0325,-.06+.065*Math.cos(Math.PI/6),0);
   const cast=group('engine/crankcase',bank);
   const outline=[[-.16,-.14],[.16,-.14],[.18,.02],[.145,.25],[-.145,.25],[-.18,.02]];
   const casting=profile(cast,'closed-deck-block',outline,.65,aluminium.clone(),[0,0,-.015]);

@@ -1,7 +1,9 @@
 import * as T from './three.module.js';
 
 // Exterior reconstruction from the owner's BMW GA8HP60X illustration (548985).
-// Illustration units preserve the engine/transfer-case connections; not factory CAD.
+// Local connection planes let the vehicle set scale without separating the cases.
+// These remain illustration units, not factory CAD or measured service dimensions.
+export const TRANSMISSION_CONNECTIONS=Object.freeze({input:[0,0,-.49],output:[0,0,.589]});
 export function buildTransmission(parent) {
   const assembly=new T.Group();assembly.name='ga8hp60x';assembly.userData.transmission='GA8HP60X';parent.add(assembly);
   const cast=new T.MeshStandardMaterial({color:0x999fa3,metalness:.48,roughness:.48});

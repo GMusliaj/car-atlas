@@ -1,7 +1,7 @@
 import * as T from './three.module.js';
 import {buildBody} from "./body.js";
-import {buildTransmission} from './transmission.js';
-import {buildEngine} from './engine.js';
+import {buildTransmission,TRANSMISSION_CONNECTIONS} from './transmission.js';
+import {buildEngine,ENGINE_CONNECTIONS} from './engine.js';
 import {buildWheel740,buildTyre} from './wheel.js';
 import {isPartVisible} from './explorer.js';
 
@@ -34,14 +34,23 @@ export function buildDrivetrain(scene) {
   function bearing(g,r,z,x=0,y=0){ring(g,r,r*.76,.045,silver,[x,y,z]);ring(g,r*.5,r*.37,.045,silver,[x,y,z]);for(let i=0;i<12;i++){const a=i*Math.PI/6;mesh(g,new T.SphereGeometry(r*.12,8,6),0xd0d8df,[x+Math.cos(a)*r*.64,y+Math.sin(a)*r*.64,z]);}}
   function flange(g,z,r=.14){cyl(g,r,.075,dark,[0,0,z]);cyl(g,r*.54,.12,steel,[0,0,z]);bolts(g,r*.76,z+.05,6);}
 
-  const engine=part('engine',world,[0,.70,-1.24],[-.25,.5,-.65]);
+  // Calibrated against the owner's X5 50e / X6 M packaging renders: use their
+  // axle/bonnet/tunnel relationships, retaining the 40i B58 and GA8HP60X.
+  // No PHEV battery, HV cabling, V8 or hybrid-specific gearbox is transplanted.
+  const at=(g,p)=>new T.Vector3(...p).multiply(g.scale).add(g.userData.base);
+  function connectedPart(id,from,local,scale,offset){
+    const g=part(id,world,from.clone().sub(new T.Vector3(...local).multiplyScalar(scale)).toArray(),offset);
+    g.scale.setScalar(scale);return g;
+  }
+  const engine=part('engine',world,[0,.62,-1.39],[-.25,.5,-.65]);
+  engine.scale.setScalar(.88);
   const engineAppearance=buildEngine(engine);
 
-  const gearbox=part('gearbox',world,[0,.64,-.43],[.22,.3,-.15]);
+  const gearbox=connectedPart('gearbox',at(engine,ENGINE_CONNECTIONS.transmission),TRANSMISSION_CONNECTIONS.input,.78,[.22,.3,-.15]);
   buildTransmission(gearbox);
 
   // Transfer case. Upper shaft is the direct rear path; the lower-offset shaft feeds forward.
-  const transfer=part('transfer',world,[0,.64,.29],[0,.65,.16]);
+  const transfer=connectedPart('transfer',at(gearbox,TRANSMISSION_CONNECTIONS.output),[0,0,-.24],.50,[0,.65,.16]);
   const caseShape=new T.Shape();
   caseShape.moveTo(.28,.10);caseShape.absarc(0,0,.30,.34,Math.PI*.87,false);
   caseShape.lineTo(-.79,-.15);caseShape.quadraticCurveTo(-.96,-.28,-.82,-.48);
@@ -95,18 +104,31 @@ export function buildDrivetrain(scene) {
   const bearings=part('bearings',transfer,[0,0,0],[.18,-.12,.7]);bearing(bearings,.108,-.27);bearing(bearings,.11,.32,-.60,-.28);
   ring(bearings,.107,.070,.016,dark,[0,0,-.31]);ring(bearings,.108,.070,.016,dark,[-.60,-.28,.36]);
 
-  const frontshaft=part('frontshaft',world,[-.60,.36,-.64],[-.5,.05,-.12]);
-  rod(frontshaft,[0,0,-.88],[0,0,.75],.046,steel);
-  for(const z of [-.83,.70]){for(const x of [-.055,.055])box(frontshaft,[.027,.08,.12],dark,[x,0,z]);rod(frontshaft,[-.074,0,z],[.074,0,z],.02,silver);rod(frontshaft,[0,-.06,z],[0,.06,z],.02,silver);}
-for(const z of [-.83,.70]){flange(frontshaft,z,.082);cyl(frontshaft,.055,.12,silver,[0,0,z]);}
-  const rearshaft=part('rearshaft',world,[0,.64,1.11],[.15,.20,.35]);
-  rod(rearshaft,[0,0,-.39],[0,0,.29],.057,steel);for(const z of [-.38,.27])flange(rearshaft,z,.10);
-  ring(rearshaft,.12,.065,.09,dark,[0,0,.07]);
+  // Size and aim each propeller shaft from its actual assembly connections.
+  // Moving the gearbox must not leave a gap or the old oversized shaft behind.
+  function propellerShaft(id,start,end,r,flangeRadius,offset,support=false){
+    const delta=end.clone().sub(start),length=delta.length();
+    const g=part(id,world,start.clone().add(end).multiplyScalar(.5).toArray(),offset);
+    g.quaternion.setFromUnitVectors(new T.Vector3(0,0,1),delta.normalize());
+    g.userData.ends=[new T.Vector3(0,0,-length/2),new T.Vector3(0,0,length/2)];
+    rod(g,[0,0,-length/2],[0,0,length/2],r,steel);
+    for(const z of [-length/2,length/2]){
+      flange(g,z,flangeRadius);
+      for(const x of [-flangeRadius*.55,flangeRadius*.55])box(g,[.020,.06,.085],dark,[x,0,z]);
+      rod(g,[-flangeRadius*.75,0,z],[flangeRadius*.75,0,z],.015,silver);
+    }
+    if(support)ring(g,.092,.048,.075,dark,[0,0,.05]);
+    return g;
+  }
+  const frontConnection=at(transfer,[-.60,-.28,-.42]);
+  const frontPinion=new T.Vector3(frontConnection.x,frontConnection.y,-1.42);
+  const frontshaft=propellerShaft('frontshaft',frontPinion,frontConnection,.032,.062,[-.5,.05,-.12]);
+  const rearshaft=propellerShaft('rearshaft',at(transfer,[0,0,.61]),new T.Vector3(0,.64,1.36),.042,.080,[.15,.20,.35],true);
 
   function differential(id,z,offset){const g=part(id,world,[0,.52,z],offset);const h=mesh(g,new T.SphereGeometry(.23,24,16),id==='reardiff'?dark:silver);h.scale.set(1.3,.83,1.0);housings.push(h);cyl(g,.19,.35,steel,[0,0,.09]);
     const gears=new T.Group();g.add(gears);gears.rotation.y=Math.PI/2;gear(gears,.16,.03,[0,0,0],24);
     for(const x of [-.27,.27])cyl(g,.075,.16,silver,[x,0,0],'x');for(let i=0;i<6;i++)box(g,[.40,.014,.012],steel,[0,-.10+i*.04,-.18]);return g;}
-  const fd=differential('frontdiff',-1.52,[-.15,.2,-.5]);rod(fd,[-.60,-.16,.10],[0,0,0],.045,steel);
+  const fd=differential('frontdiff',-1.52,[-.15,.2,-.5]);rod(fd,frontPinion.clone().sub(fd.userData.base).toArray(),[0,0,0],.045,steel);
   const rd=differential('reardiff',1.62,[0,.25,.65]);
   for(const side of [-1,1]){rod(rd,[side*.16,.05,.1],[side*.38,.17,.16],.035,silver);cyl(rd,.085,.06,dark,[side*.38,.17,.16],'y');cyl(rd,.03,.07,silver,[side*.38,.17,.16],'y');}
 rod(rd,[0,0,-.17],[0,.12,-.26],.06,steel);
@@ -125,11 +147,12 @@ rod(rd,[0,0,-.17],[0,.12,-.26],.06,steel);
 
   // Generic chassis based on the supplied undercarriage reference.
   const chassis=part('chassis',world,[0,0,0],[0,-.20,0]);
-  for(const side of [-1,1]){
-    const z=-1.24+(side<0?.055:-.015);
-    box(chassis,[.16,.025,.15],silver,[side*.455,.375,z]);
-    rod(chassis,[side*.455,.36,z],[side*.64,.34,z-.10],.03,silver);
-    rod(chassis,[side*.455,.36,z],[side*.64,.34,z+.10],.03,silver);
+  for(const local of ENGINE_CONNECTIONS.mounts){
+    const seat=at(engine,local),side=Math.sign(seat.x),{x,y,z}=seat;
+    const mountSeat=box(chassis,[.15,.025,.14],silver,[x,y-.0125,z]);
+    mountSeat.name=`engine-mount-seat/${side<0?'left':'right'}`;
+    rod(chassis,[x,y-.04,z],[side*.64,.34,z-.10],.03,silver);
+    rod(chassis,[x,y-.04,z],[side*.64,.34,z+.10],.03,silver);
   }
   for(const z of [-1.52,1.62]){
     tube(chassis,[[-.66,.36,z-.30],[-.47,.27,z-.36],[.47,.27,z-.36],[.66,.36,z-.30],[.66,.36,z+.30],[.43,.27,z+.37],[-.43,.27,z+.37],[-.66,.36,z+.30]],.046,silver,true);
@@ -161,8 +184,8 @@ rod(chassis,[-.20,.53,-1.67],[-.38,1.34,-.72],.021,silver);
   addFlow('outputshaft',[[0,0,.04],[0,0,.61]],0x7ce8cd);
   addFlow('chain',[[0,0,.055],[-.30,-.14,.055],[-.60,-.28,.055]],0x7abaff,true);
   addFlow('frontoutput',[[0,0,.12],[0,0,-.42]],0x7abaff,true);
-  addFlow('frontshaft',[[0,.075,.73],[0,.075,-.90]],0x7abaff,true);
-  addFlow('rearshaft',[[0,.085,-.4],[0,.085,.30]],0x7ce8cd);
+  addFlow('frontshaft',frontshaft.userData.ends.toReversed().map(p=>[p.x,p.y+.055,p.z]),0x7abaff,true);
+  addFlow('rearshaft',rearshaft.userData.ends.map(p=>[p.x,p.y+.060,p.z]),0x7ce8cd);
   for(const id of ['frontdiff','reardiff'])for(const side of [-1,1])addFlow(id,[[0,.10,0],[side*.9,.03,0]],id==='frontdiff'?0x7abaff:0x7ce8cd,id==='frontdiff');
   const grid=new T.GridHelper(14,35,0x9aaaae,0xc6cfd2);grid.position.y=-.025;grid.material.transparent=true;grid.material.opacity=.14;scene.add(grid);
 
